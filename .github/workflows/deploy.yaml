@@ -27,4 +27,4 @@ jobs:
           AWS_USER: ${{ secrets.AWS_USER }}
           AWS_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
         run: |
-          ssh -i $AWS_SSH_KEY $AWS_USER@$AWS_HOST 'cd ./go_stack/ && git pull && docker-compose up -d'
+          ssh -i go_ssh.pem ubuntu@ec2-51-20-103-117.eu-north-1.compute.amazonaws.com 'cd ./go_stack/ && git pull && docker-compose up -d'
