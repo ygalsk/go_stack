@@ -17,10 +17,12 @@ jobs:
           echo "$AWS_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-      - name: Deploy to AWS
+      - name: Deploy with Docker Compose
         run: |
-          ssh -i private_key.pem ubuntu@ec2-51-20-103-117.eu-north-1.compute.amazonaws.com << EOF
-            'cd go_stack/ && git pull && docker-compose up -d'
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@ec2-51-20-103-117.eu-north-1.compute.amazonaws.com << EOF
+            cd go_stack/
+            git pull
+            docker-compose up -d
           EOF
 
       - name: Clean up private key
