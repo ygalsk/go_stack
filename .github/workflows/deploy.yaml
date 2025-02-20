@@ -22,5 +22,5 @@ jobs:
       - name: SSH into AWS and deploy
         run: |
           # Use SSH with the decoded key
-          ssh -i /tmp/aws_private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@your-ec2-ip \
+          ssh -i /tmp/aws_private_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@ec2-51-20-103-117.eu-north-1.compute.amazonaws.com \
             'cd ./go_stack && git pull && docker-compose up -d'
