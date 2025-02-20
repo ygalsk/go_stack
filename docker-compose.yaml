@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend/
+    container_name: backend
+    ports:
+      - "${PORT:-8080}:8080"
+    networks:
+      - webapp
+    environment:
+      - PORT=${PORT:-8080}
+
+  frontend:
+    build: ./frontend/
+    container_name: frontend
+    ports:
+      - "${PORT:-3000}:3000"
+    networks:
+      - webapp
+    environment:
+      - PORT=${PORT:-3000}
+
+networks:
+  webapp:
+    driver: bridge
