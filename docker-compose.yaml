@@ -1,25 +1,31 @@
-version: "3.8"
-
 services:
   backend:
-    build: ./backend/
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+      target: prod
     container_name: backend
     ports:
-      - "${PORT:-8080}:8080"
+      - "${BACKEND_PORT:-8080}:8080"
     networks:
       - webapp
     environment:
-      - PORT=${PORT:-8080}
+      - PORT=8080
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend/
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+      target: prod
     container_name: frontend
     ports:
-      - "${PORT:-3000}:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     networks:
       - webapp
     environment:
-      - PORT=${PORT:-3000}
+      - PORT=3000
+    restart: unless-stopped
 
 networks:
   webapp:

@@ -1,0 +1,43 @@
+# docker-compose.dev.yml
+services:
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+      target: dev
+    container_name: backend-dev
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - webapp
+    environment:
+      - PORT=8080
+      - DEBUG=true
+    volumes:
+      - ./backend:/app
+      - /app/go/pkg/mod # Don't overwrite go modules
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+      target: dev
+    container_name: frontend-dev
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    networks:
+      - webapp
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true # Enable file watching in containers
+    volumes:
+      - ./frontend:/app:delegated
+      - /app/node_modules # Preserve container's node_modules
+      - /app/.next # Preserve Next.js build directory
+    restart: unless-stopped
+
+networks:
+  webapp:
+    driver: bridge
