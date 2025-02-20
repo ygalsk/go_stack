@@ -12,9 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up SSH key
+      - name: Create private key file
         run: |
-          echo "$AWS_SSH_KEY" > private_key.pem
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" | tr -d '\r' > private_key.pem
           chmod 600 private_key.pem
 
       - name: Deploy with Docker Compose
